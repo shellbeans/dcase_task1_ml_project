@@ -3,13 +3,13 @@
 
 trainer:
   logger:
-      # Logger to save the logs, configs, hyperparameters and checkpoints
-      class_path: lightning.pytorch.loggers.TensorBoardLogger
-      init_args:
-        # Save path
-        save_dir: log
-        # Sub-path of the save path
-        name: tfsepnet_test
+    # Logger to save the logs, configs, hyperparameters and checkpoints
+    class_path: lightning.pytorch.loggers.TensorBoardLogger
+    init_args:
+      # Save path
+      save_dir: log
+      # Sub-path of the save path
+      name: tfsepnet_test
 
 # Path to the checkpoint of trained TF-SepNet
 ckpt_path: log/tfsepnet_train/version_*/checkpoints/***.ckpt
@@ -32,9 +32,7 @@ model:
     class_label: scene
     domain_label: device
     spec_extractor:
-      class_path: util.CpMel
-      init_args:
-        n_mels: 512
+      class_path: util.Leaf
 
 data:
   class_path: data.data_module.DCASEDataModule

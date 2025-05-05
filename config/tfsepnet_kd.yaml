@@ -2,32 +2,32 @@
 
 trainer:
   logger:
-      # Logger to save the logs, configs, hyperparameters and checkpoints
-      class_path: lightning.pytorch.loggers.TensorBoardLogger
-      init_args:
-        # Save path
-        save_dir: log
-        # Sub-path of the save path
-        name: tfsepnet_kd
+    # Logger to save the logs, configs, hyperparameters and checkpoints
+    class_path: lightning.pytorch.loggers.TensorBoardLogger
+    init_args:
+      # Save path
+      save_dir: log
+      # Sub-path of the save path
+      name: tfsepnet_kd
   callbacks:
-      # Show epoch instead of step on tensor board
+    # Show epoch instead of step on tensor board
     - class_path: util.OverrideEpochStepCallback
       # Monitor learning rate on tensor board
     - class_path: lightning.pytorch.callbacks.LearningRateMonitor
       init_args:
         logging_interval: epoch
-#      # Stop training if `monitor` metric stop decreasing for `patience` epochs
-#    - class_path: lightning.pytorch.callbacks.EarlyStopping
-#      init_args:
-#        monitor: val_loss
-#        patience: 100
-      # Save the best model with highest validation accuracy
+    #      # Stop training if `monitor` metric stop decreasing for `patience` epochs
+    #    - class_path: lightning.pytorch.callbacks.EarlyStopping
+    #      init_args:
+    #        monitor: val_loss
+    #        patience: 100
+    # Save the best model with highest validation accuracy
     - class_path: lightning.pytorch.callbacks.ModelCheckpoint
       init_args:
         save_top_k: 1
         monitor: val_acc
         mode: max
-        filename: '{epoch}-{val_acc:.4f}'
+        filename: "{epoch}-{val_acc:.4f}"
   # Max training epochs
   max_epochs: 150
 
@@ -63,9 +63,7 @@ model:
     class_label: scene
     domain_label: device
     spec_extractor:
-      class_path: util.CpMel
-      init_args:
-        n_mels: 512
+      class_path: util.Leaf
     # Knowledge distillation hyperparameters
     # Details: https://dcase.community/documents/challenge2023/technical_reports/DCASE2023_Schmid_28_t1.pdf
     temperature: 2.0

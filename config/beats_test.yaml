@@ -3,13 +3,13 @@
 
 trainer:
   logger:
-      # Logger to save the logs, configs, hyperparameters and checkpoints
-      class_path: lightning.pytorch.loggers.TensorBoardLogger
-      init_args:
-        # Save path
-        save_dir: log
-        # Sub-path of the save path
-        name: beats_test
+    # Logger to save the logs, configs, hyperparameters and checkpoints
+    class_path: lightning.pytorch.loggers.TensorBoardLogger
+    init_args:
+      # Save path
+      save_dir: log
+      # Sub-path of the save path
+      name: beats_test
 
 # Path to the checkpoint of fine-tuned BEATs
 ckpt_path: log/beats_finetune/version_*/checkpoints/***.ckpt
@@ -20,8 +20,8 @@ model:
     backbone:
       class_path: model.backbones.PretrainedBEATs
       init_args:
-          pretrained: model/beats/checkpoints/BEATs_iter3_plus_AS2M.pt
-          num_classes: 10
+        pretrained: model/beats/checkpoints/BEATs_iter3_plus_AS2M.pt
+        num_classes: 10
     data_augmentation:
       mix_up: null
       mix_style: null
@@ -30,10 +30,9 @@ model:
     class_label: scene
     domain_label: device
     spec_extractor:
-      class_path: util.BEATsMel
+      class_path: util.LeafBeats
       init_args:
-        dataset_mean: 15.41663
-        dataset_std: 6.55582
+        sample_rate: 16000
 
 data:
   class_path: data.data_module.DCASEDataModule
