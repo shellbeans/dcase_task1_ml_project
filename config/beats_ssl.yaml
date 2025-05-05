@@ -2,15 +2,15 @@
 
 trainer:
   logger:
-      # Logger to save the logs, configs, hyperparameters and checkpoints
-      class_path: lightning.pytorch.loggers.TensorBoardLogger
-      init_args:
-        # Save path
-        save_dir: log
-        # Sub-path of the save path
-        name: beats_ssl
+    # Logger to save the logs, configs, hyperparameters and checkpoints
+    class_path: lightning.pytorch.loggers.TensorBoardLogger
+    init_args:
+      # Save path
+      save_dir: log
+      # Sub-path of the save path
+      name: beats_ssl
   callbacks:
-      # Show epoch instead of step on tensor board
+    # Show epoch instead of step on tensor board
     - class_path: util.OverrideEpochStepCallback
       # Monitor learning rate on tensor board
     - class_path: lightning.pytorch.callbacks.LearningRateMonitor
@@ -22,7 +22,7 @@ trainer:
         save_top_k: 1
         monitor: val_acc
         mode: max
-        filename: '{epoch}-{val_acc:.4f}'
+        filename: "{epoch}-{val_acc:.4f}"
   # Max training epochs
   max_epochs: 30
 
@@ -34,8 +34,8 @@ model:
     backbone:
       class_path: model.backbones.PretrainedBEATs
       init_args:
-          pretrained: model/beats/checkpoints/BEATs_iter3_plus_AS2M.pt
-          num_classes: 10
+        pretrained: model/beats/checkpoints/BEATs_iter3_plus_AS2M.pt
+        num_classes: 10
     # Set to ``null`` if not applied
     data_augmentation:
       mix_up:
@@ -60,10 +60,7 @@ model:
     class_label: scene
     domain_label: device
     spec_extractor:
-      class_path: util.BEATsMel
-      init_args:
-        dataset_mean: 15.41663
-        dataset_std: 6.55582
+      class_path: util.LeafBeats
     # Optimization
     optimizer:
       class_path: torch.optim.AdamW
@@ -93,4 +90,3 @@ data:
     pin_memory: true
     sampling_rate: 16000
     train_subset: split5
-
