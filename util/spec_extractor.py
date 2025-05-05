@@ -301,18 +301,18 @@ class PCEN(nn.Module):
         return (x * smoother + delta) ** r - delta**r
 
 
-class LEAF(nn.Module):
+class Leaf(_SpecExtractor):
     def __init__(
         self,
-        n_filters: int = 40,
+        n_filters: int = 64,
         min_freq: float = 60.0,
         max_freq: float = 7800.0,
-        sample_rate: int = 16000,
-        window_len: float = 25.0,
-        window_stride: float = 10.0,
+        sample_rate: int = 32000,
+        window_len: float = 96.0,
+        window_stride: float = 15.0,
         compression: Optional[torch.nn.Module] = None,
     ):
-        super(LEAF, self).__init__()
+        super(Leaf, self).__init__()
 
         # convert window sizes from milliseconds to samples
         window_size = int(sample_rate * window_len / 1000)
@@ -350,3 +350,29 @@ class LEAF(nn.Module):
         x = self.filterbank(x)
         x = self.compression(x)
         return x
+
+
+class LeafBeats(_SpecExtractor):
+    def __init__(
+        self,
+        n_filters: int = 64,
+        min_freq: float = 60.0,
+        max_freq: float = 7800.0,
+        sample_rate: int = 32000,
+        window_len: float = 96.0,
+        window_stride: float = 15.0,
+    ):
+        super(LeafBeats, self).__init__()
+        self.leaf = Leaf(
+            n_filters=n_filters,
+            min_freq=min_freq,
+            max_freq=max_freq,
+            sample_rate=sample_rate,
+            window_len=window_len,
+            window_stride=window_stride,
+            compression=None,
+        )
+
+    def forward(self, x: torch.tensor):
+        # already normalized per channel
+        return self.leaf(x)
